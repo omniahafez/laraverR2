@@ -5,6 +5,7 @@ use App\Traits\Traits\UploadFile;
 use Illuminate\Http\Request;
 use App\Models\Beverage;
 use App\Models\Taq;
+use App\Models\Message;
 
 class BeverageController extends Controller
 {
@@ -17,7 +18,9 @@ class BeverageController extends Controller
     {
         $title ='beverages';
         $beverages= Beverage::get ();
-        return view('dashboard.beverages', compact('beverages', 'title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.beverages', compact('beverages', 'title','unreadCount','nodifications'));
     }
 
     /**
@@ -27,7 +30,9 @@ class BeverageController extends Controller
     {
         $title ='Add beverage';
         $taqs = Taq::all();
-        return view('dashboard.addBeverage', compact('taqs', 'title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.addBeverage', compact('taqs', 'title','unreadCount','nodifications'));
     }
 
     /**
@@ -77,7 +82,9 @@ class BeverageController extends Controller
         $title ='Edit beverage';
         $beverage = Beverage::findOrFail($id);
         $taqs = Taq::all();
-        return view('dashboard.editBeverage', compact('beverage', 'taqs','title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.editBeverage', compact('beverage', 'taqs','title','unreadCount','nodifications'));
     }
 
     /**

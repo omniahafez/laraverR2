@@ -25,8 +25,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $title ='Add user'; 
-        return view('dashboard.addUser', compact('title'));
+        $title ='Add user';
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.addUser', compact('title','unreadCount','nodifications'));
     }
 
     /**
@@ -73,7 +75,9 @@ class UserController extends Controller
     {
         $title ='Edit user';
         $user = User::findOrFail($id);
-        return view('dashboard.editUser', compact('user','title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.editUser', compact('user','title','unreadCount','nodifications'));
     }
 
     /**

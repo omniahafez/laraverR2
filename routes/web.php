@@ -14,12 +14,14 @@ Route::get('/', function () {
 
 Route::get('home2',[Frontpage::class,'home'])->name('home2');
 
-
+//Route::get('/', [UserController::class, 'index'])->middleware('verified')->name('dashboard.users');
 
 Route::post('insertUser', [UserController::class,'store'])->name('insertUser');
 Route::post('insertCategory', [TaqController::class,'store'])->name('insertCategory');
 Route::post('insertBeverage', [BeverageController::class,'store'])->name('insertBeverage');
 Route::post('insertMessage', [MessageController::class, 'store'])->name('insertMessage');
+
+
 
 
 Route::prefix('dashboard')->group(function () {
@@ -47,4 +49,4 @@ Route::prefix('dashboard')->group(function () {
 });
 Auth::routes(['verify'=> true]);
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

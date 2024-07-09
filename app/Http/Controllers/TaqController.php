@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Taq;
+use App\Models\Message;
 
 class TaqController extends Controller
 {
@@ -14,7 +15,9 @@ class TaqController extends Controller
     {
         $title ='categories';
         $taqs= Taq::get ();
-        return view('dashboard.categories', compact('taqs', 'title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.categories', compact('taqs', 'title','unreadCount','nodifications'));
     }
 
     /**
@@ -23,7 +26,9 @@ class TaqController extends Controller
     public function create()
     {
         $title ='Add category';
-        return view('dashboard.addCategory', compact('title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.addCategory', compact('title','unreadCount','nodifications'));
     }
 
     /**
@@ -56,7 +61,9 @@ class TaqController extends Controller
     {
         $title ='Edit category';
         $taq = Taq::findOrFail($id);
-        return view('dashboard.editCategory', compact('taq', 'title'));
+        $unreadCount = Message::where('readable', 0)->count();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+        return view('dashboard.editCategory', compact('taq', 'title','unreadCount','nodifications'));
     }
 
     /**

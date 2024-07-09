@@ -52,17 +52,24 @@ foreach ($nodifications as $nodification) {
          // Save the message
          $message = Message::create($data);
 
-         // Send the email
+         //Send the email
          Mail::to('recipient@example.com')->send(new ContactMail($data));
  
          //return 'Message added and email sent.';
-
-         $title ='messages';
-         $messages= Message::get ();
-         $unreadCount = Message::where('readable', 0)->count();
-         $nodifications = Message::where('readable', 0)->take(3)->get();
-         return view('dashboard.messages', compact('title','messages','unreadCount','nodifications'));
+        return redirect()->to(url('/home2') . '#contact')->with('success', 'Your message has been sent successfully!');
+        
+         // return back()->with('success', 'Your message has been sent successfully!');
+        
     }
+
+    
+
+
+
+
+
+
+
 
     /**
      * Display the specified resource.

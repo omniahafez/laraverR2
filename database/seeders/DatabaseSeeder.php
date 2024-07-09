@@ -20,9 +20,11 @@ class DatabaseSeeder extends Seeder
         Beverage::factory(12)->create();
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'userName' => 'testuser',
+        //     'active' => true,
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }

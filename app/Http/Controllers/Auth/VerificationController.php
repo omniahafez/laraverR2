@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+//use Illuminate\Auth\Events\Verified;
 
 class VerificationController extends Controller
 {
@@ -38,4 +41,11 @@ class VerificationController extends Controller
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Set session variables
+        Session::put('name', $user->name);
+}
+
 }
