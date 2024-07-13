@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Taq;
 use App\Models\Message;
+use Carbon\Carbon;
 
 class TaqController extends Controller
 {
@@ -17,6 +18,19 @@ class TaqController extends Controller
         $taqs= Taq::get ();
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.categories', compact('taqs', 'title','unreadCount','nodifications'));
     }
 
@@ -28,6 +42,19 @@ class TaqController extends Controller
         $title ='Add category';
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.addCategory', compact('title','unreadCount','nodifications'));
     }
 
@@ -63,6 +90,19 @@ class TaqController extends Controller
         $taq = Taq::findOrFail($id);
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.editCategory', compact('taq', 'title','unreadCount','nodifications'));
     }
 

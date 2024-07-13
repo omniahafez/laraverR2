@@ -78,12 +78,7 @@
             <img src="{{ asset('dashAssets/images/delete.png') }}" alt="Delete">
         </a>
     </form> 
-                          
-                          
-                          
-                          
-                          
-                          
+    </td> 
                         </tr>
                         
                         @endforeach

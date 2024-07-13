@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Message;;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -16,7 +17,20 @@ class UserController extends Controller
         $title ='users';
         $users= user::get ();
         $unreadCount = Message::where('readable', 0)->count();
-         $nodifications = Message::where('readable', 0)->take(3)->get();
+        $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.users', compact('users','title','unreadCount','nodifications'));
     }
 
@@ -28,6 +42,19 @@ class UserController extends Controller
         $title ='Add user';
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.addUser', compact('title','unreadCount','nodifications'));
     }
 
@@ -77,6 +104,19 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.editUser', compact('user','title','unreadCount','nodifications'));
     }
 

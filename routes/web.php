@@ -7,12 +7,15 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaqController;
 use App\Http\Controllers\MessageController;
 use App\Models\Message;
+//use Illuminate\Support\Facades\Auth;
+//use App\Http\Controllers\Auth\RegisterController;
+//use App\Http\Controllers\Auth\LoginController;
 
-Route::get('/', function () {
-   return view('welcome');
-});
+// Route::get('/', function () {
+//    return view('welcome');
+// });
 
-Route::get('home2',[Frontpage::class,'home'])->name('home2');
+Route::get('/',[Frontpage::class,'home'])->name('home2');
 
 //Route::get('/', [UserController::class, 'index'])->middleware('verified')->name('dashboard.users');
 
@@ -21,7 +24,7 @@ Route::post('insertCategory', [TaqController::class,'store'])->name('insertCateg
 Route::post('insertBeverage', [BeverageController::class,'store'])->name('insertBeverage');
 Route::post('insertMessage', [MessageController::class, 'store'])->name('insertMessage');
 
-
+//Route::post('register', [RegisterController::class, 'register'])->name('register');
 
 
 Route::prefix('dashboard')->group(function () {
@@ -44,9 +47,13 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/messages', [MessageController::class, 'index'])->name('dashboard.messages');
     Route::get('/showMessage/{id}', [MessageController::class, 'show'])->name('dashboard.showMessage');
+    Route::delete('/delMessage',[MessageController::class, 'destroy'])->name('dashboard.delMessage');
+
+    Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+    
 
 
 });
 Auth::routes(['verify'=> true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

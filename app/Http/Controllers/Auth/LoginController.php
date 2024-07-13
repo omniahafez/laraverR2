@@ -49,7 +49,6 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-
     public function credentials(Request $request) {
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             return ['email' => $request->email, 'password' => $request->password];
@@ -62,61 +61,16 @@ class LoginController extends Controller
     {
         // Set session variables
         Session::put('name', $user->name);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        
+        return redirect('/login'); // Redirect to the login page or any other page
+    }
 }
-
-
-// public function authenticate(Request $request): RedirectResponse
-//     {
-//         $credentials = $request->validate([
-//             'email' => ['required', 'email'],
-//             'password' => ['required'],
-//         ]);
- 
-//         if (Auth::attempt($credentials)) {
-//             $request->session()->regenerate();
- 
-//             return redirect()->intended('dashboard');
-//         }
- 
-//         return back()->withErrors([
-//             'email' => 'The provided credentials do not match our records.',
-//         ])->onlyInput('email');
-
-
-//         if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
-//             // Authentication was successful...
-//         }
-//     }
-
-
-
-// public function authenticate(Request $request): RedirectResponse
-// {
-//     $credentials = $request->validate([
-//         'email' => ['required', 'email'],
-//         'password' => ['required'],
-//     ]);
-
-//     // Check if the user is active
-//     $user = User::where('email', $credentials['email'])->first();
-
-//     if ($user && $user->active == 0) {
-//         return back()->withErrors([
-//             'email' => 'Your account is not active.',
-//         ])->onlyInput('email');
-//     }
-
-//     // Attempt to authenticate the user
-//     if (Auth::attempt($credentials)) {
-//         $request->session()->regenerate();
-
-//         return redirect()->intended('dashboard');
-//     }
-
-//     return back()->withErrors([
-//         'email' => 'The provided credentials do not match our records.',
-//     ])->onlyInput('email');
-// }
-
-        }
     

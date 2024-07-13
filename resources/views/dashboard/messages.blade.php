@@ -61,7 +61,16 @@
                           <td>{{ $message->fullName }}</td>
                           <td>{{ $message->email }}</td>
                           <td><a href="{{ route('dashboard.showMessage', $message->id)}}" onclick="return confirm('read?')"><img src="{{asset ('dashAssets/images/edit.png')}}" alt="Edit"></td>
-                          <td><img src="{{asset ('dashAssets/images/delete.png')}}" alt="Delete"></td>
+                          <td> 
+                          <form action="{{ route('dashboard.delMessage') }}" method="post">
+        @csrf
+        @method('delete')
+        <input type="hidden" value="{{ $message->id }}" name="id">
+        <a href="#" onclick="return confirm('Are you sure you want to delete?') && this.parentNode.submit();">
+            <img src="{{ asset('dashAssets/images/delete.png') }}" alt="Delete">
+        </a>
+    </form> 
+    </td> 
                         </tr>
                         @endforeach
                         

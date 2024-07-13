@@ -34,11 +34,11 @@
           <section class="login_content">
 
 
-          <form method="POST" action="#">
+          <form method="POST" action="{{ route('login') }}">
           @csrf
                <h1>Login Form</h1>
                <div>
-                <input  id="login" type="email" class="form-control @error('login') is-invalid @enderror" name="email" placeholder="Username or Email" required="" />
+                <input  id="login" type="text" class="form-control @error('login') is-invalid @enderror" name="email" placeholder="Username or Email" required/>
                 @error('login')
                 <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -90,7 +90,7 @@
         
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-          <form method="POST" action="#">
+          <form method="POST" action="{{ route('register') }}">
           @csrf
               <h1>Create Account</h1>
 
@@ -132,7 +132,7 @@
                 </span>
                 @enderror
               </div>
-
+ 
 
               <div>
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="confirm Password" required autocomplete="new-password">

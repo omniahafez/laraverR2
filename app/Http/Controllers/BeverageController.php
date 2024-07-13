@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Beverage;
 use App\Models\Taq;
 use App\Models\Message;
+use Carbon\Carbon;
 
 class BeverageController extends Controller
 {
 
     use UploadFile;
+
     /**
      * Display a listing of the resource.
      */
@@ -20,6 +22,19 @@ class BeverageController extends Controller
         $beverages= Beverage::get ();
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.beverages', compact('beverages', 'title','unreadCount','nodifications'));
     }
 
@@ -32,6 +47,19 @@ class BeverageController extends Controller
         $taqs = Taq::all();
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.addBeverage', compact('taqs', 'title','unreadCount','nodifications'));
     }
 
@@ -60,8 +88,6 @@ class BeverageController extends Controller
         // Handle the special checkbox
         $data['special'] = isset ($request->special);
 
-
-
        Beverage::create($data);
         return redirect('dashboard/beverages');
     }
@@ -84,6 +110,19 @@ class BeverageController extends Controller
         $taqs = Taq::all();
         $unreadCount = Message::where('readable', 0)->count();
         $nodifications = Message::where('readable', 0)->take(3)->get();
+
+        // Add a human-readable time difference to each notification
+        foreach ($nodifications as $nodification) {
+            $nodification->time_diff = Carbon::parse($nodification->created_at)->diffForHumans();
+    
+            // Get first 5 words from messageContent
+            $words = explode(' ', $nodification->messageContent);
+            if (count($words) > 5) {
+                $nodification->short_message = implode(' ', array_slice($words, 0, 5)) . '...';
+            } else {
+                $nodification->short_message = $nodification->messageContent;
+            }
+        }
         return view('dashboard.editBeverage', compact('beverage', 'taqs','title','unreadCount','nodifications'));
     }
 
@@ -105,6 +144,7 @@ class BeverageController extends Controller
 
 
         // Handle image upload
+
         if (isset($request->image) && $request->hasFile('image')) {
         // Delete the old image if it exists
         if (isset($beverage->image) && $beverage->image) {
@@ -119,8 +159,9 @@ class BeverageController extends Controller
         } else {
         // Keep the old image if no new image is uploaded
         $data['image'] = $beverage->image;
-    }
-
+        }
+        
+       // Handle active
     $data['active'] = isset ($request->active);
 
 
