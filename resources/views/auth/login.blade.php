@@ -33,10 +33,19 @@
         <div class="animate form login_form">
           <section class="login_content">
 
-
+  
           <form method="POST" action="{{ route('login') }}">
           @csrf
                <h1>Login Form</h1>
+               @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                <div>
                 <input  id="login" type="text" class="form-control @error('login') is-invalid @enderror" name="email" placeholder="Username or Email" required/>
                 @error('login')
@@ -62,7 +71,7 @@
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        {{ __('Lost your password?') }}
                                     </a>
                                 @endif
               </div>
@@ -134,12 +143,8 @@
               </div>
  
 
-              <div>
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="confirm Password" required autocomplete="new-password">
-               </div>
-                        
-
-
+              
+                    
               <div>
               <button type="submit" class="btn btn-primary">
                                     {{ __('submit') }}

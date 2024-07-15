@@ -15,8 +15,11 @@ class TaqController extends Controller
     public function index()
     {
         $title ='categories';
+        // Retrieve all categories (Taqs)
         $taqs= Taq::get ();
+        // Count unread messages
         $unreadCount = Message::where('readable', 0)->count();
+        // Retrieve the latest 3 unread messages
         $nodifications = Message::where('readable', 0)->take(3)->get();
 
         // Add a human-readable time difference to each notification
@@ -63,6 +66,7 @@ class TaqController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $data = $request->validate([
         
             'taqName' => 'required|string|max:100',

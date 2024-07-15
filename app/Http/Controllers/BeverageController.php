@@ -68,6 +68,7 @@ class BeverageController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $data = $request->validate([
         
             'title' => 'required|string|max:150',
@@ -132,6 +133,8 @@ class BeverageController extends Controller
     public function update(Request $request, string $id)
     {
         $beverage = Beverage::findOrFail($id);
+
+        // Validate the incoming request data
         $data = $request->validate([
         
             'title' => 'required|string|max:150',
@@ -162,11 +165,11 @@ class BeverageController extends Controller
         }
         
        // Handle active
-    $data['active'] = isset ($request->active);
+        $data['active'] = isset ($request->active);
 
 
-    $beverage->update($data);
-    return redirect()->route('dashboard.beverages')->with('success', 'beverage updated successfully');
+         $beverage->update($data);
+         return redirect()->route('dashboard.beverages')->with('success', 'beverage updated successfully');
 
     }
     /**

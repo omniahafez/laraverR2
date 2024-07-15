@@ -18,13 +18,14 @@ class DatabaseSeeder extends Seeder
 
         Taq::factory(3)->create();
         Beverage::factory(12)->create();
-        // User::factory(10)->create();
+        User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'userName' => 'testuser',
-        //     'active' => true,
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory()->create([
+            'name' => 'Test User',
+            'userName' => 'testuser',
+            'active' => true,
+            'email' => 'test@example.com',
+            'password' =>'123456789',
+        ]);
     }
 }

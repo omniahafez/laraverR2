@@ -63,6 +63,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $data = $request->validate([
         
             'name' => 'required|string|max:100',
