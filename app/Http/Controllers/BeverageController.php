@@ -164,8 +164,11 @@ class BeverageController extends Controller
         $data['image'] = $beverage->image;
         }
         
-       // Handle active
-        $data['active'] = isset ($request->active);
+       // Handle the published checkbox
+       $data['published'] = isset ($request->published);
+
+       // Handle the special checkbox
+       $data['special'] = isset ($request->special);
 
 
          $beverage->update($data);

@@ -24,6 +24,6 @@ class Taq extends Model
     }
     public function beverages()
     {
-        return $this->hasMany(Beverage::class);
+        return $this->hasMany(Beverage::class)->where('published', 1);
     }
 }
