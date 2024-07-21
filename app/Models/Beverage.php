@@ -13,7 +13,7 @@ class Beverage extends Model
         'content',
         'price',
         'published',
-        'special',
+        'special', 
         'image',
         'taq_id',
     ];
